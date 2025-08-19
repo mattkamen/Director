@@ -89,7 +89,7 @@
   // Year
   const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
 
-  // Video order (left→right, then next row)
+  // Video order with titles
   const videos=[
     {id:'1103298514', title:'Sydney Water'},
     {id:'1100825907', title:'Sportsbet'},
@@ -108,69 +108,36 @@
 
   function renderVideos(list){
     gallery.innerHTML='';
-    const cards=list.map(()=>{
+    list.forEach(video=>{
       const card=document.createElement('div');
       card.className='video';
-      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div><div class="caption"></div>`;
+
+      const thumbDiv=document.createElement('div');
+      thumbDiv.className='thumb';
+      thumbDiv.innerHTML='<div class="skeleton"></div>';
+
+      const caption=document.createElement('div');
+      caption.className='caption';
+      caption.textContent=video.title;
+
+      card.appendChild(thumbDiv);
+      card.appendChild(caption);
       gallery.appendChild(card);
-      return card;
-    });
 
-    list.forEach((video,i)=>{
-      const card=cards[i];
-      const captionEl=card.querySelector('.caption');
-      // Default caption from array if provided
-      captionEl.textContent=video.title || '';
-
-      fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
-        .then(r=>r.ok?r.json():Promise.reject(new Error('oEmbed not ok')))
-        .then(data=>{
-          const thumb=getHighResThumbnail(data.thumbnail_url);
-          const thumbEl=card.querySelector('.thumb');
-          thumbEl.innerHTML='';
-          const img=document.createElement('img');
-          img.src=thumb;
-          img.alt=data.title || video.title || '';
-          thumbEl.appendChild(img);
-          captionEl.textContent=data.title || video.title || 'Untitled';
-          thumbEl.addEventListener('click',()=>openModal(video.id));
-        })
-        .catch(err=>{
-          // Fallback thumb remains skeleton, but keep it clickable and keep fallback title
-          const thumbEl=card.querySelector('.thumb');
-          thumbEl.addEventListener('click',()=>openModal(video.id));
-          if(!captionEl.textContent){ captionEl.textContent=video.title || 'Untitled'; }
-          console.warn('Vimeo oEmbed failed for', video.id, err);
-        });
-    });
-  });
-
-    // Fill each card by index (keeps order locked)
-    list.forEach((video,i)=>{
       fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
         .then(r=>r.json())
         .then(data=>{
           const thumb=getHighResThumbnail(data.thumbnail_url);
-          const card=cards[i];
-          card.innerHTML='';
-          const thumbEl=document.createElement('div');
-          thumbEl.className='thumb';
+          thumbDiv.innerHTML='';
           const img=document.createElement('img');
           img.src=thumb;
-          img.alt=data.title || '';
-          thumbEl.appendChild(img);
-          const caption=document.createElement('div');
-          caption.className='caption';
-          caption.textContent=data.title || '';
-          card.appendChild(thumbEl);
-          card.appendChild(caption);
-          thumbEl.addEventListener('click',()=>openModal(video.id));
+          img.alt=data.title || video.title;
+          thumbDiv.appendChild(img);
+          caption.textContent=data.title || video.title;
+          thumbDiv.addEventListener('click',()=>openModal(video.id));
         })
         .catch(()=>{
-          const card=cards[i];
-          card.innerHTML=`<div class=\"thumb\"><div class=\"skeleton\" style=\"animation:none;background:#1a1a1a\"></div></div><div class=\"caption\"></div>`;
-          const thumbEl=card.querySelector('.thumb');
-          if(thumbEl){ thumbEl.addEventListener('click',()=>openModal(video.id)); }
+          thumbDiv.addEventListener('click',()=>openModal(video.id));
         });
     });
   }
@@ -214,6 +181,7 @@
 </script>
 </body>
 </html>
+
 
 
 
