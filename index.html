@@ -19,11 +19,10 @@
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
   /* Gallery */
   #video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:20px}
-  .video{background:var(--card);border:1px solid var(--line);cursor:pointer;text-align:center;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}
+  .video{background:var(--card);border:1px solid var(--line);text-align:center;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}
   .video:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
-  .thumb{width:100%;aspect-ratio:16/9;overflow:hidden}
+  .thumb{width:100%;aspect-ratio:16/9;overflow:hidden;cursor:pointer}
   .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .video-title{margin-top:10px;font-size:16px;font-weight:700;font-family:'Space Grotesk',sans-serif;letter-spacing:.2px}
   /* Modal video */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s ease}
   .modal.active{opacity:1;pointer-events:auto}
@@ -89,7 +88,7 @@
   // Year
   const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
 
-  // Video order
+  // Video order (left→right, then next row)
   const videos=[
     {id:'1103298514'}, // Sydney Water
     {id:'1100825907'}, // Sportsbet
@@ -108,28 +107,31 @@
 
   function renderVideos(list){
     gallery.innerHTML='';
+    // Placeholders in order
     const cards=list.map(()=>{
       const card=document.createElement('div');
       card.className='video';
-      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div><div class="video-title" style="color:#888">Loading…</div>`;
+      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div>`;
       gallery.appendChild(card);
       return card;
     });
 
+    // Fill each card by index (keeps order locked)
     list.forEach((video,i)=>{
       fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
         .then(r=>r.json())
         .then(data=>{
-          const title=data.title||'Untitled';
           const thumb=getHighResThumbnail(data.thumbnail_url);
           const card=cards[i];
-          card.innerHTML=`<div class="thumb"><img src="${thumb}" alt="${title}"></div><div class="video-title">${title}</div>`;
-          card.addEventListener('click',()=>openModal(video.id));
+          card.innerHTML=`<div class="thumb"><img src="${thumb}" alt=""></div>`;
+          const thumbEl=card.querySelector('.thumb');
+          if(thumbEl){ thumbEl.addEventListener('click',()=>openModal(video.id)); }
         })
         .catch(()=>{
           const card=cards[i];
-          card.innerHTML=`<div class="thumb"><div class="skeleton" style="animation:none;background:#1a1a1a"></div></div><div class="video-title">Untitled</div>`;
-          card.addEventListener('click',()=>openModal(video.id));
+          card.innerHTML=`<div class="thumb"><div class="skeleton" style="animation:none;background:#1a1a1a"></div></div>`;
+          const thumbEl=card.querySelector('.thumb');
+          if(thumbEl){ thumbEl.addEventListener('click',()=>openModal(video.id)); }
         });
     });
   }
@@ -168,9 +170,11 @@
   document.getElementById('about-link').addEventListener('click',(e)=>{e.preventDefault();aboutModal.classList.add('active');});
   document.getElementById('about-close').addEventListener('click',()=>aboutModal.classList.remove('active'));
 
+  // Kickoff
   renderVideos(videos);
 </script>
 </body>
 </html>
+
 
 
