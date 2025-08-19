@@ -19,10 +19,11 @@
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
   /* Gallery */
   #video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:20px}
-  .video{background:var(--card);border:1px solid var(--line);text-align:center;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}
+  .video{background:var(--card);border:1px solid var(--line);text-align:left;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}
   .video:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
   .thumb{width:100%;aspect-ratio:16/9;overflow:hidden;cursor:pointer}
   .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .caption{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:16px;padding:10px 12px 14px;color:var(--fg);letter-spacing:.2px}
   /* Modal video */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s ease}
   .modal.active{opacity:1;pointer-events:auto}
@@ -111,7 +112,7 @@
     const cards=list.map(()=>{
       const card=document.createElement('div');
       card.className='video';
-      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div>`;
+      card.innerHTML=`<div class=\"thumb\"><div class=\"skeleton\"></div></div><div class=\"caption\"></div>`;
       gallery.appendChild(card);
       return card;
     });
@@ -123,13 +124,23 @@
         .then(data=>{
           const thumb=getHighResThumbnail(data.thumbnail_url);
           const card=cards[i];
-          card.innerHTML=`<div class="thumb"><img src="${thumb}" alt=""></div>`;
-          const thumbEl=card.querySelector('.thumb');
-          if(thumbEl){ thumbEl.addEventListener('click',()=>openModal(video.id)); }
+          card.innerHTML='';
+          const thumbEl=document.createElement('div');
+          thumbEl.className='thumb';
+          const img=document.createElement('img');
+          img.src=thumb;
+          img.alt=data.title || '';
+          thumbEl.appendChild(img);
+          const caption=document.createElement('div');
+          caption.className='caption';
+          caption.textContent=data.title || '';
+          card.appendChild(thumbEl);
+          card.appendChild(caption);
+          thumbEl.addEventListener('click',()=>openModal(video.id));
         })
         .catch(()=>{
           const card=cards[i];
-          card.innerHTML=`<div class="thumb"><div class="skeleton" style="animation:none;background:#1a1a1a"></div></div>`;
+          card.innerHTML=`<div class=\"thumb\"><div class=\"skeleton\" style=\"animation:none;background:#1a1a1a\"></div></div><div class=\"caption\"></div>`;
           const thumbEl=card.querySelector('.thumb');
           if(thumbEl){ thumbEl.addEventListener('click',()=>openModal(video.id)); }
         });
@@ -175,6 +186,7 @@
 </script>
 </body>
 </html>
+
 
 
 
