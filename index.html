@@ -4,42 +4,54 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matt Kamen | Director</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet" />
 <style>
-  :root{--bg:#0b0b0c;--fg:#f5f5f7;--muted:#9aa0a6;--card:#141417;--line:#1e1e22;--accent:#6cf}
+  :root{--bg:#0b0b0c;--fg:#f5f5f7;--muted:#9aa0a6;--line:#1e1e22;--card:#141417;--accent:#6cf}
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{margin:0;background:var(--bg);color:var(--fg);font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+
+  /* Header */
   header{position:relative;text-align:center;padding:48px 12px 24px}
   nav{position:absolute;top:20px;right:20px}
   nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
   nav a:hover{color:var(--accent)}
-  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:60px;margin:0 0 8px}
-  .subtitle{font-family:'Space Grotesk',sans-serif;color:var(--muted);font-weight:500;font-size:22px;margin:0 auto 28px}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:56px;letter-spacing:.2px;margin:0 0 8px}
+  .subtitle{font-family:'Space Grotesk',sans-serif;color:var(--muted);font-weight:600;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
-  #video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;padding:20px}
-  .video{background:none;border:none;text-align:left}
-  .thumb{width:100%;aspect-ratio:16/9;overflow:hidden;cursor:pointer;border:1px solid var(--line);background:var(--card);margin-bottom:18px}
+
+  /* Gallery */
+  main{padding:20px}
+  #video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+  @media (max-width:1100px){#video-gallery{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:640px){#video-gallery{grid-template-columns:1fr}}
+
+  .item{display:flex;flex-direction:column}
+  .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer}
   .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .title{margin-top:12px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:18px;color:var(--fg)}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  /* Important: title sits on the plain black background, not on the card */
+  .title{margin-top:12px;color:var(--fg);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;line-height:1.3}
+
+  /* Skeleton */
+  @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .skeleton{width:100%;height:100%;background:linear-gradient(90deg,#121216,#17171b,#121216);background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s ease}
   .modal.active{opacity:1;pointer-events:auto}
-  .modal-content{position:relative;width:80%;max-width:960px;aspect-ratio:16/9;background:#000}
+  .modal-content{position:relative;width:min(90vw,960px);aspect-ratio:16/9;background:#000}
   .modal iframe{width:100%;height:100%;border:0}
   .modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer}
-  .end-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center}
-  .end-overlay.active{display:flex}
-  .end-overlay button{background:#fff;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer}
-  #about-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s ease}
-  #about-modal.active{opacity:1;pointer-events:auto}
-  .about-modal-content{position:relative;background:#141417;border:1px solid #1e1e22;padding:32px 28px;max-width:680px;margin:0 20px;text-align:center}
-  .about-modal-content img{max-width:100%;margin:0 auto 18px;border-radius:4px}
-  .about-modal-content .close-btn{position:absolute;top:8px;right:10px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
+
   footer{color:var(--muted);text-align:center;font-size:13px;padding:24px}
+  a.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+  a.skip:focus{left:20px;top:20px;width:auto;height:auto;background:#000;color:#fff;padding:8px 10px;border:1px solid var(--line)}
 </style>
 </head>
 <body>
+  <a href="#video-gallery" class="skip">Skip to gallery</a>
   <header>
-    <nav>
+    <nav aria-label="Primary">
       <a href="#" id="archive-link">Archive</a>
       <a href="#" id="about-link">About</a>
     </nav>
@@ -48,117 +60,126 @@
     <div class="divider"></div>
   </header>
 
-  <section id="video-gallery"></section>
+  <main>
+    <section id="video-gallery" aria-live="polite"></section>
+  </main>
 
   <footer>© <span id="year"></span> Matt Kamen</footer>
 
-  <div class="modal" id="video-modal">
+  <!-- Video Modal -->
+  <div class="modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video player">
     <div class="modal-content">
-      <span class="modal-close" id="modal-close">&times;</span>
+      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
       <iframe id="modal-iframe" src="" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
-      <div class="end-overlay" id="end-overlay">
-        <button id="replay-btn">Replay</button>
-      </div>
     </div>
   </div>
 
-  <div id="about-modal">
-    <div class="about-modal-content">
-      <button class="close-btn" id="about-close">&times;</button>
-      <img id="about-photo" src="about-photo.webp" alt="Matt Kamen" />
-      <p>I’m just here for the food.</p>
-      <p>For Aus/Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
-      <p>For USA enquiries, please contact Tracy Mays at <a href="mailto:tracy@biggerpicturela.com">tracy@biggerpicturela.com</a></p>
+  <!-- About Modal -->
+  <div class="modal" id="about-modal" role="dialog" aria-modal="true" aria-label="About Matt">
+    <div class="modal-content" style="aspect-ratio:auto;max-width:720px;padding:24px 20px;background:var(--card);border:1px solid var(--line)">
+      <button class="modal-close" id="about-close" aria-label="Close">×</button>
+      <img id="about-photo" src="about-photo.webp" alt="Matt Kamen" style="max-width:100%;height:auto;display:block;margin:0 auto 16px;border-radius:4px" />
+      <p style="text-align:center;margin:10px 0 6px">I’m just here for the food.</p>
+      <p style="text-align:center;margin:6px 0">For Aus/Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
+      <p style="text-align:center;margin:6px 0">For USA enquiries, contact Tracy Mays at <a href="mailto:tracy@biggerpicturela.com">tracy@biggerpicturela.com</a></p>
     </div>
   </div>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
+  // Footer year
   const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
 
+  // Data
   const videos=[
     {id:'1103298514', title:'Sydney Water'},
     {id:'1100825907', title:'Sportsbet'},
     {id:'1004298667', title:'Coles'},
-    {id:'953364475', title:'Koala Tradie'},
-    {id:'955053501', title:'Koala Granny'},
-    {id:'959854166', title:'British Paints'},
-    {id:'861094226', title:'New Video 1'},
-    {id:'861090915', title:'New Video 2'},
-    {id:'410786732', title:'New Video 3'}
+    {id:'953364475',  title:'Koala Tradie'},
+    {id:'955053501',  title:'Koala Granny'},
+    {id:'959854166',  title:'British Paints'},
+    {id:'861094226',  title:'New Video 1'},
+    {id:'861090915',  title:'New Video 2'},
+    {id:'410786732',  title:'New Video 3'}
   ];
 
   const gallery=document.getElementById('video-gallery');
 
-  function getHighResThumbnail(url){return (url||'').replace(/_(\d+)x(\d+)/,'_1280');}
+  function hiRes(url){return (url||'').replace(/_(\d+)x(\d+)/,'_1280')}
 
-  function renderVideos(list){
-    gallery.innerHTML='';
-    list.forEach(video=>{
-      const wrapper=document.createElement('div');
-      wrapper.className='video';
+  function makeItem({id,title}){
+    const item=document.createElement('article');
+    item.className='item';
 
-      const thumb=document.createElement('div');
-      thumb.className='thumb';
-      thumb.innerHTML='<div class="skeleton"></div>';
-      wrapper.appendChild(thumb);
+    // Thumbnail card
+    const thumb=document.createElement('div');
+    thumb.className='thumb';
+    thumb.innerHTML='<div class="skeleton" aria-hidden="true"></div>';
+    thumb.setAttribute('role','button');
+    thumb.setAttribute('tabindex','0');
+    thumb.setAttribute('aria-label',`Play ${title||'video'}`);
+    item.appendChild(thumb);
 
-      gallery.appendChild(wrapper);
+    // Title sits on plain black background under the card
+    const t=document.createElement('div');
+    t.className='title';
+    t.textContent=title||'';
+    item.appendChild(t);
 
-      const title=document.createElement('div');
-      title.className='title';
-      title.textContent=video.title;
-      wrapper.appendChild(title);
+    // Fetch oEmbed for better title and thumbnail
+    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`)
+      .then(r=>r.ok?r.json():Promise.reject('oembed failed'))
+      .then(data=>{
+        const img=document.createElement('img');
+        img.src=hiRes(data.thumbnail_url);
+        img.alt=data.title||title||'';
+        thumb.innerHTML='';
+        thumb.appendChild(img);
+        t.textContent=data.title||title||'Untitled';
+      })
+      .catch(()=>{/* keep fallback title and skeleton if needed */});
 
-      fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
-        .then(r=>r.json())
-        .then(data=>{
-          const img=document.createElement('img');
-          img.src=getHighResThumbnail(data.thumbnail_url);
-          img.alt=data.title || video.title;
-          thumb.innerHTML='';
-          thumb.appendChild(img);
-          title.textContent=data.title || video.title;
-          thumb.addEventListener('click',()=>openModal(video.id));
-        })
-        .catch(()=>{
-          thumb.addEventListener('click',()=>openModal(video.id));
-        });
-    });
+    function open(){openModal(id)}
+    thumb.addEventListener('click',open);
+    thumb.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+
+    return item;
   }
+
+  function render(list){
+    gallery.innerHTML='';
+    list.forEach(v=>gallery.appendChild(makeItem(v)));
+  }
+
+  // Modal logic
+  const modal=document.getElementById('video-modal');
+  const iframe=document.getElementById('modal-iframe');
+  const modalClose=document.getElementById('modal-close');
+  let lastFocus=null;
 
   function openModal(id){
-    const modal=document.getElementById('video-modal');
-    const iframe=document.getElementById('modal-iframe');
-    const overlay=document.getElementById('end-overlay');
-    overlay.classList.remove('active');
+    lastFocus=document.activeElement;
     iframe.src=`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1`;
     modal.classList.add('active');
-    if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}
-    window.currentPlayer=new Vimeo.Player(iframe);
-    window.currentPlayer.off('ended');
-    window.currentPlayer.on('ended',()=>{overlay.dataset.videoId=id;overlay.classList.add('active');});
+    modalClose.focus();
   }
-
   function closeModal(){
-    const modal=document.getElementById('video-modal');
-    const iframe=document.getElementById('modal-iframe');
-    if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}
     iframe.src='';
     modal.classList.remove('active');
+    if(lastFocus){lastFocus.focus();}
   }
+  modalClose.addEventListener('click',closeModal);
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); aboutModal.classList.remove('active'); }});
 
-  document.getElementById('modal-close').addEventListener('click',closeModal);
-  document.getElementById('replay-btn').addEventListener('click',()=>{
-    const id=document.getElementById('end-overlay').dataset.videoId; openModal(id);
-  });
-
+  // About modal
   const aboutModal=document.getElementById('about-modal');
   document.getElementById('about-link').addEventListener('click',e=>{e.preventDefault();aboutModal.classList.add('active');});
   document.getElementById('about-close').addEventListener('click',()=>aboutModal.classList.remove('active'));
 
-  renderVideos(videos);
+  // Kick off
+  render(videos);
 </script>
 </body>
 </html>
+
 
