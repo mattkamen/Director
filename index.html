@@ -91,15 +91,15 @@
 
   // Video order (left→right, then next row)
   const videos=[
-    {id:'1103298514'}, // Sydney Water
-    {id:'1100825907'}, // Sportsbet
-    {id:'1004298667'}, // Coles
-    {id:'953364475'},  // Koala Tradie
-    {id:'955053501'},  // Koala Granny
-    {id:'959854166'},  // British Paints
-    {id:'861094226'},  // New Video 1
-    {id:'861090915'},  // New Video 2
-    {id:'410786732'}   // New Video 3
+    {id:'1103298514', title:'Sydney Water'},
+    {id:'1100825907', title:'Sportsbet'},
+    {id:'1004298667', title:'Coles'},
+    {id:'953364475',  title:'Koala Tradie'},
+    {id:'955053501',  title:'Koala Granny'},
+    {id:'959854166',  title:'British Paints'},
+    {id:'861094226',  title:'New Video 1'},
+    {id:'861090915',  title:'New Video 2'},
+    {id:'410786732',  title:'New Video 3'}
   ];
 
   const gallery=document.getElementById('video-gallery');
@@ -108,14 +108,42 @@
 
   function renderVideos(list){
     gallery.innerHTML='';
-    // Placeholders in order
     const cards=list.map(()=>{
       const card=document.createElement('div');
       card.className='video';
-      card.innerHTML=`<div class=\"thumb\"><div class=\"skeleton\"></div></div><div class=\"caption\"></div>`;
+      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div><div class="caption"></div>`;
       gallery.appendChild(card);
       return card;
     });
+
+    list.forEach((video,i)=>{
+      const card=cards[i];
+      const captionEl=card.querySelector('.caption');
+      // Default caption from array if provided
+      captionEl.textContent=video.title || '';
+
+      fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
+        .then(r=>r.ok?r.json():Promise.reject(new Error('oEmbed not ok')))
+        .then(data=>{
+          const thumb=getHighResThumbnail(data.thumbnail_url);
+          const thumbEl=card.querySelector('.thumb');
+          thumbEl.innerHTML='';
+          const img=document.createElement('img');
+          img.src=thumb;
+          img.alt=data.title || video.title || '';
+          thumbEl.appendChild(img);
+          captionEl.textContent=data.title || video.title || 'Untitled';
+          thumbEl.addEventListener('click',()=>openModal(video.id));
+        })
+        .catch(err=>{
+          // Fallback thumb remains skeleton, but keep it clickable and keep fallback title
+          const thumbEl=card.querySelector('.thumb');
+          thumbEl.addEventListener('click',()=>openModal(video.id));
+          if(!captionEl.textContent){ captionEl.textContent=video.title || 'Untitled'; }
+          console.warn('Vimeo oEmbed failed for', video.id, err);
+        });
+    });
+  });
 
     // Fill each card by index (keeps order locked)
     list.forEach((video,i)=>{
@@ -186,6 +214,7 @@
 </script>
 </body>
 </html>
+
 
 
 
