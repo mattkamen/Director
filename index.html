@@ -1,191 +1,175 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2487.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Matt Kamen | Director</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0b0b0c;--fg:#f5f5f7;--muted:#9aa0a6;--card:#141417;--line:#1e1e22;--accent:#6cf}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  /* Header */
+  header{position:relative;text-align:center;padding:48px 12px 24px}
+  nav{position:absolute;top:20px;right:20px}
+  nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
+  nav a:hover{color:var(--accent)}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:60px;letter-spacing:.3px;margin:0 0 8px}
+  .subtitle{font-family:'Space Grotesk',sans-serif;color:var(--muted);font-weight:500;font-size:22px;margin:0 auto 28px;letter-spacing:.2px}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
+  /* Gallery */
+  #video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:20px}
+  .video{background:var(--card);border:1px solid var(--line);cursor:pointer;text-align:center;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}
+  .video:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  .thumb{width:100%;aspect-ratio:16/9;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .video-title{margin-top:10px;padding:0 8px 14px;font-size:16px;font-weight:700;font-family:'Manrope',sans-serif;letter-spacing:.2px}
+  /* Modal video */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  .modal.active{opacity:1;pointer-events:auto}
+  .modal-content{position:relative;width:80%;max-width:960px;aspect-ratio:16/9;background:#000}
+  .modal iframe{width:100%;height:100%;border:0}
+  .modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer}
+  .end-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center}
+  .end-overlay.active{display:flex}
+  .end-overlay button{background:#fff;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer}
+  /* About modal */
+  #about-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s ease}
+  #about-modal.active{opacity:1;pointer-events:auto}
+  .about-modal-content{position:relative;background:#141417;border:1px solid #1e1e22;padding:32px 28px;max-width:680px;margin:0 20px;text-align:center}
+  .about-modal-content img{max-width:100%;height:auto;display:block;margin:0 auto 18px;border-radius:4px}
+  .about-modal-content .close-btn{position:absolute;top:8px;right:10px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
+  .about-modal-content p{margin:10px 0}
+  .about-modal-content a{color:#f5f5f7}
+  /* Skeleton */
+  @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .skeleton{width:100%;height:100%;background:linear-gradient(90deg,#121216,#17171b,#121216);background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}
+  footer{color:var(--muted);text-align:center;font-size:13px;padding:24px}
+</style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;meta charset="UTF-8" /&gt;</span></p>
-<p class="p1"><span class="s1">&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
-<p class="p1"><span class="s1">&lt;title&gt;Matt Kamen | Director&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1">&lt;link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=Manrope:wght@400;600;800&amp;display=swap" rel="stylesheet"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>:root{--bg:#0b0b0c;--fg:#f5f5f7;--muted:#9aa0a6;--card:#141417;--line:#1e1e22;--accent:#6cf}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>*{box-sizing:border-box}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>body{margin:0;background:var(--bg);color:var(--fg);font-family:'Manrope',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>/* Header */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>header{position:relative;text-align:center;padding:48px 12px 24px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>nav{position:absolute;top:20px;right:20px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-family:'Manrope',sans-serif;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>nav a:hover{color:var(--accent)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:60px;letter-spacing:.3px;margin:0 0 8px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.subtitle{font-family:'Space Grotesk',sans-serif;color:var(--muted);font-weight:500;font-size:22px;margin:0 auto 28px;letter-spacing:.2px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>/* Gallery */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>#video-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:20px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.video{background:var(--card);border:1px solid var(--line);cursor:pointer;text-align:center;transition:transform .25s ease,box-shadow .25s ease;border-radius:0}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.video:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.35)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.thumb{width:100%;aspect-ratio:16/9;overflow:hidden}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.thumb img{width:100%;height:100%;object-fit:cover;display:block}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.video-title{margin-top:10px;padding:0 8px 14px;font-size:16px;font-weight:700;font-family:'Manrope',sans-serif;letter-spacing:.2px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>/* Modal video */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s ease}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.modal.active{opacity:1;pointer-events:auto}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.modal-content{position:relative;width:80%;max-width:960px;aspect-ratio:16/9;background:#000}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.modal iframe{width:100%;height:100%;border:0}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.end-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.end-overlay.active{display:flex}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.end-overlay button{background:#fff;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>/* About modal */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>#about-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1001;opacity:0;pointer-events:none;transition:opacity .3s ease}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>#about-modal.active{opacity:1;pointer-events:auto}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.about-modal-content{position:relative;background:#141417;border:1px solid #1e1e22;padding:32px 28px;max-width:680px;margin:0 20px;text-align:center}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.about-modal-content img{max-width:100%;height:auto;display:block;margin:0 auto 18px;border-radius:4px}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.about-modal-content .close-btn{position:absolute;top:8px;right:10px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.about-modal-content p{margin:10px 0}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.about-modal-content a{color:#f5f5f7}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>/* Skeleton */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>@keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>.skeleton{width:100%;height:100%;background:linear-gradient(90deg,#121216,#17171b,#121216);background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>footer{color:var(--muted);text-align:center;font-size:13px;padding:24px}</span></p>
-<p class="p1"><span class="s1">&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;nav&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;a href="#" id="archive-link"&gt;Archive&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;a href="#" id="about-link"&gt;About&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/nav&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Matt Kamen&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p class="subtitle"&gt;Director — Comedy • Commercials&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="divider"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;section id="video-gallery"&gt;&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;footer&gt;© &lt;span id="year"&gt;&lt;/span&gt; Matt Kamen&lt;/footer&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Video Modal --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="modal" id="video-modal"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="modal-content"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;span class="modal-close" id="modal-close"&gt;&amp;times;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;iframe id="modal-iframe" src="" allow="fullscreen; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="end-overlay" id="end-overlay"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="replay-btn"&gt;Replay&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- About Modal --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="about-modal"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="about-modal-content"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;button class="close-btn" id="about-close"&gt;&amp;times;&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;img id="about-photo" src="about-photo.webp" alt="Matt Kamen" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p&gt;I’m just here for the food.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p&gt;For Aus/Asia enquiries, say hello at &lt;a href="mailto:matt@kamen.com.au"&gt;matt@kamen.com.au&lt;/a&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p&gt;For USA enquiries, please contact Tracy Mays at &lt;a href="mailto:tracy@biggerpicturela.com"&gt;tracy@biggerpicturela.com&lt;/a&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;script src="https://player.vimeo.com/api/player.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Year</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Video order</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const videos=[</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'1100825907'}, // Sportsbet</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'1103298514'}, // Sydney Water</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'953364475'},<span class="Apple-converted-space">  </span>// Koala Tradie</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'1004298667'}, // Coles</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'959854166'},<span class="Apple-converted-space">  </span>// British Paints</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'955053501'},<span class="Apple-converted-space">  </span>// Koala Granny</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'861094226'},<span class="Apple-converted-space">  </span>// New Video 1</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'861090915'},<span class="Apple-converted-space">  </span>// New Video 2</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{id:'410786732'} <span class="Apple-converted-space">  </span>// New Video 3</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const gallery=document.getElementById('video-gallery');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function getHighResThumbnail(url){ return (url||'').replace(/_(\d+)x(\d+)/,'_1280'); }</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function renderVideos(list){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>gallery.innerHTML='';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const cards=list.map(()=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const card=document.createElement('div');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>card.className='video';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>card.innerHTML=`&lt;div class="thumb"&gt;&lt;div class="skeleton"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="video-title" style="color:#888"&gt;Loading…&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>gallery.appendChild(card);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return card;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>list.forEach((video,i)=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.then(r=&gt;r.json())</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.then(data=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const title=data.title||'Untitled';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const thumb=getHighResThumbnail(data.thumbnail_url);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const card=cards[i];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>card.innerHTML=`&lt;div class="thumb"&gt;&lt;img src="${thumb}" alt="${title}"&gt;&lt;/div&gt;&lt;div class="video-title"&gt;${title}&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>card.addEventListener('click',()=&gt;openModal(video.id));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>})</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.catch(()=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const card=cards[i];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>card.innerHTML=`&lt;div class="thumb"&gt;&lt;div class="skeleton" style="animation:none;background:#1a1a1a"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="video-title"&gt;Untitled&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>card.addEventListener('click',()=&gt;openModal(video.id));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Modal logic</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function openModal(id){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const modal=document.getElementById('video-modal');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const iframe=document.getElementById('modal-iframe');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const overlay=document.getElementById('end-overlay');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>overlay.classList.remove('active');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>iframe.src=`https://player.vimeo.com/video/${id}?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>modal.classList.add('active');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>window.currentPlayer=new Vimeo.Player(iframe);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>window.currentPlayer.off('ended');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>window.currentPlayer.on('ended',()=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>overlay.dataset.videoId=id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>overlay.classList.add('active');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function closeModal(){</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const modal=document.getElementById('video-modal');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const iframe=document.getElementById('modal-iframe');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>iframe.src='';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>modal.classList.remove('active');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById('modal-close').addEventListener('click',closeModal);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById('replay-btn').addEventListener('click',()=&gt;{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const id=document.getElementById('end-overlay').dataset.videoId; openModal(id);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// About modal open/close</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const aboutModal=document.getElementById('about-modal');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById('about-link').addEventListener('click',(e)=&gt;{e.preventDefault();aboutModal.classList.add('active');});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById('about-close').addEventListener('click',()=&gt;aboutModal.classList.remove('active'));</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>renderVideos(videos);</span></p>
-<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+  <header>
+    <nav>
+      <a href="#" id="archive-link">Archive</a>
+      <a href="#" id="about-link">About</a>
+    </nav>
+    <h1>Matt Kamen</h1>
+    <p class="subtitle">Director — Comedy • Commercials</p>
+    <div class="divider"></div>
+  </header>
+
+  <section id="video-gallery"></section>
+
+  <footer>© <span id="year"></span> Matt Kamen</footer>
+
+  <!-- Video Modal -->
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close">&times;</span>
+      <iframe id="modal-iframe" src="" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
+      <div class="end-overlay" id="end-overlay">
+        <button id="replay-btn">Replay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="about-modal">
+    <div class="about-modal-content">
+      <button class="close-btn" id="about-close">&times;</button>
+      <img id="about-photo" src="about-photo.webp" alt="Matt Kamen" />
+      <p>I’m just here for the food.</p>
+      <p>For Aus/Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
+      <p>For USA enquiries, please contact Tracy Mays at <a href="mailto:tracy@biggerpicturela.com">tracy@biggerpicturela.com</a></p>
+    </div>
+  </div>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  // Year
+  const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
+
+  // Video order
+  const videos=[
+    {id:'1100825907'}, // Sportsbet
+    {id:'1103298514'}, // Sydney Water
+    {id:'953364475'},  // Koala Tradie
+    {id:'1004298667'}, // Coles
+    {id:'959854166'},  // British Paints
+    {id:'955053501'},  // Koala Granny
+    {id:'861094226'},  // New Video 1
+    {id:'861090915'},  // New Video 2
+    {id:'410786732'}   // New Video 3
+  ];
+
+  const gallery=document.getElementById('video-gallery');
+
+  function getHighResThumbnail(url){ return (url||'').replace(/_(\d+)x(\d+)/,'_1280'); }
+
+  function renderVideos(list){
+    gallery.innerHTML='';
+    const cards=list.map(()=>{
+      const card=document.createElement('div');
+      card.className='video';
+      card.innerHTML=`<div class="thumb"><div class="skeleton"></div></div><div class="video-title" style="color:#888">Loading…</div>`;
+      gallery.appendChild(card);
+      return card;
+    });
+
+    list.forEach((video,i)=>{
+      fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${video.id}`)
+        .then(r=>r.json())
+        .then(data=>{
+          const title=data.title||'Untitled';
+          const thumb=getHighResThumbnail(data.thumbnail_url);
+          const card=cards[i];
+          card.innerHTML=`<div class="thumb"><img src="${thumb}" alt="${title}"></div><div class="video-title">${title}</div>`;
+          card.addEventListener('click',()=>openModal(video.id));
+        })
+        .catch(()=>{
+          const card=cards[i];
+          card.innerHTML=`<div class="thumb"><div class="skeleton" style="animation:none;background:#1a1a1a"></div></div><div class="video-title">Untitled</div>`;
+          card.addEventListener('click',()=>openModal(video.id));
+        });
+    });
+  }
+
+  // Modal logic
+  function openModal(id){
+    const modal=document.getElementById('video-modal');
+    const iframe=document.getElementById('modal-iframe');
+    const overlay=document.getElementById('end-overlay');
+    overlay.classList.remove('active');
+    iframe.src=`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1`;
+    modal.classList.add('active');
+    if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}
+    window.currentPlayer=new Vimeo.Player(iframe);
+    window.currentPlayer.off('ended');
+    window.currentPlayer.on('ended',()=>{
+      overlay.dataset.videoId=id;
+      overlay.classList.add('active');
+    });
+  }
+  function closeModal(){
+    const modal=document.getElementById('video-modal');
+    const iframe=document.getElementById('modal-iframe');
+    if(window.currentPlayer){try{window.currentPlayer.unload();}catch(e){}}
+    iframe.src='';
+    modal.classList.remove('active');
+  }
+
+  document.getElementById('modal-close').addEventListener('click',closeModal);
+  document.getElementById('replay-btn').addEventListener('click',()=>{
+    const id=document.getElementById('end-overlay').dataset.videoId; openModal(id);
+  });
+
+  // About modal open/close
+  const aboutModal=document.getElementById('about-modal');
+  document.getElementById('about-link').addEventListener('click',(e)=>{e.preventDefault();aboutModal.classList.add('active');});
+  document.getElementById('about-close').addEventListener('click',()=>aboutModal.classList.remove('active'));
+
+  renderVideos(videos);
+</script>
 </body>
 </html>
+
