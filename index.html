@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matt Kamen | Director</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rubik+Iso&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rubik+Iso&family=Fascinate&display=swap" rel="stylesheet" />
 <style>
   :root{--bg:#0b0b0c;--fg:#f5f5f7;--muted:#9aa0a6;--line:#1e1e22;--card:#141417;--accent:#6cf;--email:#66aaff}
   *{box-sizing:border-box}
@@ -17,7 +17,7 @@
   nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
   nav a:hover{color:var(--accent)}
   nav a.icon{display:flex;align-items:center;justify-content:center;font-size:18px}
-  h1{font-family:'Rubik Iso',cursive;font-weight:400;font-size:56px;letter-spacing:.2px;margin:0 0 8px}
+  h1{font-family:'Fascinate',cursive;font-weight:400;font-size:56px;letter-spacing:.2px;margin:0 0 8px;text-transform:capitalize}
   .subtitle{font-family:'Inter',sans-serif !important;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
 
@@ -127,7 +127,7 @@
 
   function upgradeVimeoThumb(url){
     if(!url) return '';
-    return url.replace(/_(?:\d+x\d+|640|960|1280)(?=\.(jpg|jpeg|png)\b)/i,'_1280');
+    return url.replace(/_(?:\d+x\d+|640|960|1280)(?=\.(jpg|jpeg|png)\b)/i,'_1920');
   }
 
   async function makeItem({id}){
@@ -168,6 +168,7 @@
       if(hi){
         img.src=hi;
         img.srcset=`${hi} 1x, ${hi} 2x`;
+        img.sizes='(max-width:640px) 100vw, (max-width:1100px) 50vw, 33vw';
       }
     }
 
@@ -226,3 +227,4 @@
 </script>
 </body>
 </html>
+
