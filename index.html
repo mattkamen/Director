@@ -30,6 +30,7 @@
   .item{position:relative;display:flex;flex-direction:column;align-items:center}
   .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer;position:relative;outline:none}
   .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb .ph{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1f,#0f0f13);}
 
   /* Hover or always show on mobile */
   .overlay-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);color:var(--fg);font-family:'Inter',sans-serif;font-size:18px;font-weight:600;text-align:center;opacity:0;transition:opacity .3s ease;padding:8px;z-index:1}
@@ -45,8 +46,12 @@
   .modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer;background:#000;border:none;border-radius:4px;padding:4px 10px}
 
   footer{color:var(--muted);text-align:center;font-size:13px;padding:24px;font-family:'Inter',sans-serif}
-  #about-modal a{color:var(--email);}
+  #about-modal a{color:var(--email);} 
   #about-modal a:hover{color:var(--accent)}
+
+  /* About modal image sizing */
+  #about-photo{max-width:60%;height:auto;display:block;margin:0 auto 16px;border-radius:4px}
+  @media (max-width:640px){#about-photo{max-width:100%}}
 </style>
 </head>
 <body>
@@ -61,7 +66,7 @@
       <a href="#" id="about-link">About</a>
     </nav>
     <h1>Matt Kamen</h1>
-    <p class="subtitle">Director · Comedy • Commercials</p>
+    <p class="subtitle">Director • Comedy • Commercials</p>
     <div class="divider"></div>
   </header>
 
@@ -72,7 +77,7 @@
   <footer>© <span id="year"></span> Matt Kamen</footer>
 
   <!-- Video Modal -->
-  <div class="modal" id="video-modal">
+  <div class="modal" id="video-modal" aria-hidden="true" role="dialog" aria-label="Video player">
     <div class="modal-content">
       <button class="modal-close" id="modal-close" aria-label="Close">×</button>
       <iframe id="modal-iframe" src="" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>
@@ -80,12 +85,13 @@
   </div>
 
   <!-- About Modal -->
-  <div class="modal" id="about-modal">
+  <div class="modal" id="about-modal" aria-hidden="true" role="dialog" aria-label="About Matt Kamen">
     <div class="modal-content" style="aspect-ratio:auto;max-width:720px;padding:24px 20px;background:var(--card);border:1px solid var(--line)">
       <button class="modal-close" id="about-close" aria-label="Close">×</button>
-      <img id="about-photo" src="Untitled-1+copy.webp" alt="Matt Kamen" style="max-width:100%;height:auto;display:block;margin:0 auto 16px;border-radius:4px" />
+      <!-- Encode the plus to avoid server translating it to a space -->
+      <img id="about-photo" src="Untitled-1%2Bcopy.webp" alt="Matt Kamen" />
       <p style="text-align:center;margin:10px 0 6px">I’m just here for the food.</p>
-      <p style="text-align:center;margin:6px 0">For Aus/Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
+      <p style="text-align:center;margin:6px 0">For Aus or Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
       <p style="text-align:center;margin:6px 0">For USA enquiries, contact Tracy Mays at <a href="mailto:tracy@biggerpicturela.com">tracy@biggerpicturela.com</a></p>
     </div>
   </div>
@@ -109,11 +115,20 @@
 
   async function fetchTitleAndThumb(id){
     try{
-      const r=await fetch(`https://vimeo.com/api/v2/video/${id}.json`);
+      const r=await fetch(`https://vimeo.com/api/v2/video/${id}.json`,{cache:'force-cache'});
       if(!r.ok) throw new Error('API failed');
       const data=await r.json();
-      return {title:data[0].title||'Untitled', thumbnail:data[0].thumbnail_large||''};
-    }catch{return {title:'Untitled', thumbnail:''}}
+      const d=data && data[0] ? data[0] : {};
+      return {title:d.title||'Untitled', thumbnail:d.thumbnail_large||''};
+    }catch(err){
+      return {title:'Untitled', thumbnail:''}
+    }
+  }
+
+  function upgradeVimeoThumb(url){
+    // Try common Vimeo patterns and request the 1280 variant when possible
+    // Examples: _295x166, _640, _960, or other WxH suffixes
+    return url.replace(/_(?:\d+x\d+|640|960|1280)(?=\.(jpg|jpeg|png)\b)/i,'_1280');
   }
 
   async function makeItem({id}){
@@ -124,6 +139,7 @@
     thumb.className='thumb';
     thumb.setAttribute('role','button');
     thumb.setAttribute('tabindex','0');
+    thumb.setAttribute('aria-label','Play video');
 
     const overlay=document.createElement('div');
     overlay.className='overlay-title';
@@ -132,13 +148,23 @@
     const img=document.createElement('img');
     img.alt='';
     img.loading='lazy';
+    img.decoding='async';
+
+    // Simple placeholder in case the image is slow
+    const ph=document.createElement('div');
+    ph.className='ph';
 
     const {title,thumbnail}=await fetchTitleAndThumb(id);
     overlay.textContent=title;
     if(thumbnail){
-      img.src=thumbnail.replace(/_295x166/,'_1280');
+      const hi=upgradeVimeoThumb(thumbnail);
+      img.src=hi;
+      // Add a basic srcset for HiDPI if pattern allows - both point to 1280 so browser will pick once
+      img.srcset=`${hi} 1x, ${hi} 2x`;
+      ph.remove();
     }
 
+    thumb.appendChild(ph);
     thumb.appendChild(img);
     thumb.appendChild(overlay);
     item.appendChild(thumb);
@@ -164,16 +190,30 @@
   function openModal(id){
     iframeEl.src=`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1`;
     modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
     modalClose.focus();
   }
-  function closeModal(){iframeEl.src='';modal.classList.remove('active')}
+  function closeModal(){
+    iframeEl.src='';
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden','true');
+  }
 
   modalClose.addEventListener('click',closeModal);
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();aboutModal.classList.remove('active')}});
 
   const aboutModal=document.getElementById('about-modal');
-  document.getElementById('about-link').addEventListener('click',e=>{e.preventDefault();aboutModal.classList.add('active')});
-  document.getElementById('about-close').addEventListener('click',()=>aboutModal.classList.remove('active'));
+  function openAbout(){aboutModal.classList.add('active');aboutModal.setAttribute('aria-hidden','false');}
+  function closeAbout(){aboutModal.classList.remove('active');aboutModal.setAttribute('aria-hidden','true');}
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+      closeModal();
+      closeAbout();
+    }
+  });
+
+  document.getElementById('about-link').addEventListener('click',e=>{e.preventDefault();openAbout()});
+  document.getElementById('about-close').addEventListener('click',closeAbout);
 
   render(videos);
 </script>
