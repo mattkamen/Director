@@ -28,7 +28,7 @@
 
   .item{position:relative;display:flex;flex-direction:column;align-items:center}
   .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer;position:relative;outline:none}
-  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb iframe{width:100%;height:100%;border:0;display:block}
 
   .title{margin-top:8px;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;color:var(--fg);text-align:center}
 
@@ -100,8 +100,6 @@
 
   const gallery=document.getElementById('video-gallery');
 
-  function hiRes(url){return (url||'').replace(/_(\d+)x(\d+)/,'_1280')}
-
   function makeItem({id,title}){
     const item=document.createElement('article');
     item.className='item';
@@ -111,9 +109,11 @@
     thumb.setAttribute('role','button');
     thumb.setAttribute('tabindex','0');
 
-    const skel=document.createElement('div');
-    skel.className='skeleton';
-    thumb.appendChild(skel);
+    // Use Vimeo background iframe so the poster always appears
+    const iframe=document.createElement('iframe');
+    iframe.src=`https://player.vimeo.com/video/${id}?background=1&autoplay=0&muted=1&title=0&byline=0&portrait=0&dnt=1`;
+    iframe.setAttribute('loading','lazy');
+    thumb.appendChild(iframe);
 
     item.appendChild(thumb);
 
@@ -121,13 +121,6 @@
     caption.className='title';
     caption.textContent=title||'';
     item.appendChild(caption);
-
-    // Use Vimeo thumbnail API (simple pattern)
-    const img=document.createElement('img');
-    img.src=`https://vumbnail.com/${id}.jpg`;
-    img.alt=title||'';
-    img.onerror=()=>{img.src=`https://i.vimeocdn.com/video/${id}_640.jpg`};
-    thumb.replaceChildren(img);
 
     const open=()=>openModal(id);
     thumb.addEventListener('click',open);
@@ -139,15 +132,15 @@
   function render(list){gallery.innerHTML='';list.forEach(v=>gallery.appendChild(makeItem(v)))}
 
   const modal=document.getElementById('video-modal');
-  const iframe=document.getElementById('modal-iframe');
+  const iframeEl=document.getElementById('modal-iframe');
   const modalClose=document.getElementById('modal-close');
 
   function openModal(id){
-    iframe.src=`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1`;
+    iframeEl.src=`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1`;
     modal.classList.add('active');
     modalClose.focus();
   }
-  function closeModal(){iframe.src='';modal.classList.remove('active')}
+  function closeModal(){iframeEl.src='';modal.classList.remove('active')}
 
   modalClose.addEventListener('click',closeModal);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();aboutModal.classList.remove('active')}});
@@ -160,3 +153,4 @@
 </script>
 </body>
 </html>
+
