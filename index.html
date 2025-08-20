@@ -13,9 +13,10 @@
 
   /* Header */
   header{position:relative;text-align:center;padding:48px 12px 24px}
-  nav{position:absolute;top:20px;right:20px}
+  nav{position:absolute;top:20px;right:20px;display:flex;align-items:center}
   nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
   nav a:hover{color:var(--accent)}
+  nav a.icon{display:flex;align-items:center;justify-content:center;font-size:18px}
   h1{font-family:'Rubik Iso',cursive;font-weight:400;font-size:56px;letter-spacing:.2px;margin:0 0 8px}
   .subtitle{font-family:'Inter',sans-serif !important;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
@@ -27,8 +28,8 @@
   @media (max-width:640px){#video-gallery{grid-template-columns:1fr}}
 
   .item{position:relative;display:flex;flex-direction:column;align-items:center}
-  .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer;position:relative;outline:none}
-  .thumb iframe{width:100%;height:100%;border:0;display:block}
+  .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer;position:relative;outline:none;background-size:cover;background-position:center}
+  .thumb iframe{display:none}
 
   /* Hover/Always-show overlay */
   .overlay-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);color:var(--fg);font-family:'Inter',sans-serif;font-size:18px;font-weight:600;text-align:center;opacity:0;transition:opacity .3s ease;padding:8px}
@@ -37,16 +38,12 @@
   @media (hover: none){.overlay-title{opacity:1}}
   @media (max-width:640px){.overlay-title{opacity:1 !important}}
 
-  /* Skeleton */
-  @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  .skeleton{width:100%;height:100%;background:linear-gradient(90deg,#121216,#17171b,#121216);background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}
-
   /* Modal */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s ease}
   .modal.active{opacity:1;pointer-events:auto}
   .modal-content{position:relative;width:min(90vw,960px);aspect-ratio:16/9;background:#000}
   .modal iframe{width:100%;height:100%;border:0}
-  .modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer}
+  .modal-close{position:absolute;top:-40px;right:0;font-size:28px;color:#fff;cursor:pointer;background:#000;border:none;border-radius:4px;padding:4px 10px}
 
   footer{color:var(--muted);text-align:center;font-size:13px;padding:24px;font-family:'Inter',sans-serif}
 </style>
@@ -54,7 +51,12 @@
 <body>
   <header>
     <nav aria-label="Primary">
-      <a href="#" id="archive-link">Archive</a>
+      <a href="https://vimeo.com/user24877388" class="icon" target="_blank" rel="noopener" aria-label="Vimeo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.977 6.217c-.104 2.262-1.68 5.367-4.73 9.316-3.154 4.086-5.82 6.129-8 6.129-1.349 0-2.491-1.244-3.435-3.732-.627-2.289-1.244-4.578-1.871-6.867-.694-2.488-1.437-3.732-2.227-3.732-.173 0-.78.364-1.828 1.091l-1.097-1.41c1.155-1.018 2.29-2.037 3.414-3.055 1.541-1.336 2.692-2.037 3.456-2.119 1.822-.173 2.947 1.091 3.372 3.792.451 2.926.78 4.743.996 5.451.554 2.489 1.155 3.732 1.8 3.732.509 0 1.273-.778 2.29-2.334 1.018-1.556 1.563-2.74 1.635-3.549.145-1.336-.392-2.001-1.635-2.001-1.155 0-2.348.262-3.581.787 2.387-7.829 6.949-11.627 13.691-11.389 4.998.145 7.142 3.401 6.445 9.767z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/mattkman/?hl=en" class="icon" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zm9.75 1a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5zM12 7a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6z"/></svg>
+      </a>
       <a href="#" id="about-link">About</a>
     </nav>
     <h1>Matt Kamen</h1>
@@ -80,7 +82,7 @@
   <div class="modal" id="about-modal">
     <div class="modal-content" style="aspect-ratio:auto;max-width:720px;padding:24px 20px;background:var(--card);border:1px solid var(--line)">
       <button class="modal-close" id="about-close" aria-label="Close">×</button>
-      <img id="about-photo" src="about-photo.webp" alt="Matt Kamen" style="max-width:100%;height:auto;display:block;margin:0 auto 16px;border-radius:4px" />
+      <img id="about-photo" src="Untitled-1+copy.webp" alt="Matt Kamen" style="max-width:100%;height:auto;display:block;margin:0 auto 16px;border-radius:4px" />
       <p style="text-align:center;margin:10px 0 6px">I’m just here for the food.</p>
       <p style="text-align:center;margin:6px 0">For Aus/Asia enquiries, say hello at <a href="mailto:matt@kamen.com.au">matt@kamen.com.au</a></p>
       <p style="text-align:center;margin:6px 0">For USA enquiries, contact Tracy Mays at <a href="mailto:tracy@biggerpicturela.com">tracy@biggerpicturela.com</a></p>
@@ -110,8 +112,8 @@
       const r=await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
       if(!r.ok) throw new Error('oembed failed');
       const data=await r.json();
-      return data.title||'Untitled';
-    }catch{return 'Untitled'}
+      return {title:data.title||'Untitled', thumbnail:data.thumbnail_url};
+    }catch{return {title:'Untitled', thumbnail:''}}
   }
 
   async function makeItem({id}){
@@ -123,18 +125,13 @@
     thumb.setAttribute('role','button');
     thumb.setAttribute('tabindex','0');
 
-    const iframe=document.createElement('iframe');
-    iframe.src=`https://player.vimeo.com/video/${id}?background=1&autoplay=0&muted=1&title=0&byline=0&portrait=0&dnt=1`;
-    iframe.setAttribute('loading','lazy');
-    thumb.appendChild(iframe);
+    const {title,thumbnail}=await fetchTitle(id);
+    if(thumbnail) thumb.style.backgroundImage=`url(${thumbnail})`;
 
     const overlay=document.createElement('div');
     overlay.className='overlay-title';
-    overlay.textContent='…';
-    thumb.appendChild(overlay);
-
-    const title=await fetchTitle(id);
     overlay.textContent=title;
+    thumb.appendChild(overlay);
 
     item.appendChild(thumb);
 
