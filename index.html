@@ -107,12 +107,17 @@
 
   const gallery=document.getElementById('video-gallery');
 
-  async function fetchTitle(id){
+  async function fetchTitleAndThumb(id){
     try{
       const r=await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
       if(!r.ok) throw new Error('oembed failed');
       const data=await r.json();
-      return {title:data.title||'Untitled', thumbnail:data.thumbnail_url};
+      // request the high resolution thumbnail
+      let thumb=data.thumbnail_url;
+      if(thumb){
+        thumb=thumb.replace(/_[0-9]+x[0-9]+\.jpg/, '_1280x720.jpg');
+      }
+      return {title:data.title||'Untitled', thumbnail:thumb};
     }catch{return {title:'Untitled', thumbnail:''}}
   }
 
@@ -125,7 +130,7 @@
     thumb.setAttribute('role','button');
     thumb.setAttribute('tabindex','0');
 
-    const {title,thumbnail}=await fetchTitle(id);
+    const {title,thumbnail}=await fetchTitleAndThumb(id);
     if(thumbnail) thumb.style.backgroundImage=`url(${thumbnail})`;
 
     const overlay=document.createElement('div');
@@ -171,3 +176,4 @@
 </script>
 </body>
 </html>
+
