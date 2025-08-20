@@ -105,30 +105,34 @@
 
   const gallery=document.getElementById('video-gallery');
 
+  // Helpers to request sharper thumbnails from Vimeo oEmbed URLs
   function toHiRes(url){
     if(!url) return '';
-    let out=url
-      .replace(/_(\d+)(x\d+)?(\.(?:jpg|jpeg|webp))$/i, '_1280$3')
-      .replace(/_(\d+)(\.(?:jpg|jpeg|webp))$/i, '_1280$2');
-    if(out===url){
-      try{const u=new URL(url);u.searchParams.set('mw','1600');out=u.toString();}catch(e){}
+    try{
+      const u=new URL(url);
+      u.searchParams.set('mw','1920');
+      u.searchParams.set('mh','1080');
+      u.searchParams.set('q','85');
+      return u.toString();
+    }catch(e){
+      return url + (url.includes('?') ? '&' : '?') + 'mw=1920&mh=1080&q=85';
     }
-    return out;
   }
-
   function buildSrcset(url){
     if(!url) return '';
-    const ex=/_(\d+)(x\d+)?(\.(?:jpg|jpeg|webp))$/i;
-    const extMatch=url.match(/\.(jpg|jpeg|webp)$/i);
-    const ext=extMatch?extMatch[0]:'.jpg';
-    const bases=[640,960,1280,1920];
-    const parts=bases.map(w=>{
-      let u=url.replace(ex, `_${w}$3`);
-      if(u===url){ u=url.replace(/\.(jpg|jpeg|webp)$/i, `_${w}${ext}`); }
-      if(u===url){ try{const t=new URL(url);t.searchParams.set('mw', String(w)); u=t.toString();}catch(e){} }
-      return `${u} ${w}w`;
-    });
-    return parts.join(', ');
+    const widths=[640,960,1280,1920];
+    return widths.map(w=>{
+      try{
+        const u=new URL(url);
+        u.searchParams.set('mw', String(w));
+        u.searchParams.set('mh','1080');
+        u.searchParams.set('q','85');
+        return `${u.toString()} ${w}w`;
+      }catch(e){
+        const u = url + (url.includes('?') ? '&' : '?') + `mw=${w}&mh=1080&q=85`;
+        return `${u} ${w}w`;
+      }
+    }).join(', ');
   }
 
   async function fetchTitleAndThumb(id){
@@ -137,6 +141,11 @@
       if(!r.ok) throw new Error('oembed failed');
       const data=await r.json();
       return {title:data.title||'Untitled', thumbnail:data.thumbnail_url||''};
+    }catch{return {title:'Untitled', thumbnail:''}}
+  }.json`);
+      if(!r.ok) throw new Error('API failed');
+      const data=await r.json();
+      return {title:data[0].title||'Untitled', thumbnail:data[0].thumbnail_large||''};
     }catch{return {title:'Untitled', thumbnail:''}}
   }
 
@@ -157,13 +166,14 @@
     img.alt='';
     img.loading='lazy';
 
-    // Fetch title and thumbnail then populate
     const {title,thumbnail}=await fetchTitleAndThumb(id);
     overlay.textContent=title;
     if(thumbnail){
-      img.src=toHiRes(thumbnail);
-      img.srcset=buildSrcset(thumbnail);
+      const hi=toHiRes(thumbnail);
+      img.src=hi;
+      img.srcset=buildSrcset(hi);
       img.sizes='(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw';
+      img.decoding='async';
     }
 
     thumb.appendChild(img);
@@ -184,7 +194,6 @@
     }
   }
 
-  // Modal logic
   const modal=document.getElementById('video-modal');
   const iframeEl=document.getElementById('modal-iframe');
   const modalClose=document.getElementById('modal-close');
@@ -207,5 +216,6 @@
 </script>
 </body>
 </html>
+
 
 
