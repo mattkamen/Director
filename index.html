@@ -17,7 +17,7 @@
   nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
   nav a:hover{color:var(--accent)}
   h1{font-family:'Rubik Iso',cursive;font-weight:400;font-size:56px;letter-spacing:.2px;margin:0 0 8px}
-  .subtitle{font-family:'Inter',sans-serif;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
+  .subtitle{font-family:'Inter',sans-serif !important;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
 
   /* Gallery */
@@ -35,9 +35,7 @@
   .thumb:hover .overlay-title,.thumb:focus .overlay-title,.thumb:focus-within .overlay-title{opacity:1}
 
   @media (hover: none){.overlay-title{opacity:1}}
-  @media (max-width:640px){
-    .overlay-title{opacity:1 !important}
-  }
+  @media (max-width:640px){.overlay-title{opacity:1 !important}}
 
   /* Skeleton */
   @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -94,20 +92,29 @@
   const yearEl=document.getElementById('year'); if(yearEl) yearEl.textContent=new Date().getFullYear();
 
   const videos=[
-    {id:'1103298514', title:'Sydney Water'},
-    {id:'1100825907', title:'Sportsbet'},
-    {id:'1004298667', title:'Coles'},
-    {id:'953364475',  title:'Koala Tradie'},
-    {id:'955053501',  title:'Koala Granny'},
-    {id:'959854166',  title:'British Paints'},
-    {id:'861094226',  title:'New Video 1'},
-    {id:'861090915',  title:'New Video 2'},
-    {id:'410786732',  title:'New Video 3'}
+    {id:'1103298514'},
+    {id:'1100825907'},
+    {id:'1004298667'},
+    {id:'953364475'},
+    {id:'955053501'},
+    {id:'959854166'},
+    {id:'861094226'},
+    {id:'861090915'},
+    {id:'410786732'}
   ];
 
   const gallery=document.getElementById('video-gallery');
 
-  function makeItem({id,title}){
+  async function fetchTitle(id){
+    try{
+      const r=await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`);
+      if(!r.ok) throw new Error('oembed failed');
+      const data=await r.json();
+      return data.title||'Untitled';
+    }catch{return 'Untitled'}
+  }
+
+  async function makeItem({id}){
     const item=document.createElement('article');
     item.className='item';
 
@@ -123,19 +130,11 @@
 
     const overlay=document.createElement('div');
     overlay.className='overlay-title';
-    overlay.textContent=title||'';
-    // Fetch exact title from Vimeo oEmbed
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`)
-      .then(r=>r.ok?r.json():Promise.reject('oembed failed'))
-      .then(data=>{ overlay.textContent = data.title || title || 'Untitled'; })
-      .catch(()=>{});
+    overlay.textContent='…';
     thumb.appendChild(overlay);
 
-    // Fetch exact Vimeo title
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`)
-      .then(r=>r.ok?r.json():Promise.reject('oembed failed'))
-      .then(data=>{ overlay.textContent = data.title || title || 'Untitled'; })
-      .catch(()=>{});
+    const title=await fetchTitle(id);
+    overlay.textContent=title;
 
     item.appendChild(thumb);
 
@@ -146,7 +145,12 @@
     return item;
   }
 
-  function render(list){gallery.innerHTML='';list.forEach(v=>gallery.appendChild(makeItem(v)))}
+  async function render(list){
+    gallery.innerHTML='';
+    for(const v of list){
+      gallery.appendChild(await makeItem(v));
+    }
+  }
 
   const modal=document.getElementById('video-modal');
   const iframeEl=document.getElementById('modal-iframe');
@@ -170,4 +174,3 @@
 </script>
 </body>
 </html>
-
