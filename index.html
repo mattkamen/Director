@@ -122,21 +122,12 @@
     caption.textContent=title||'';
     item.appendChild(caption);
 
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`)
-      .then(r=>r.ok?r.json():Promise.reject('oembed failed'))
-      .then(data=>{
-        const img=document.createElement('img');
-        img.src=hiRes(data.thumbnail_url);
-        img.alt=data.title||title||'';
-        thumb.replaceChildren(img);
-        caption.textContent=data.title||title||'Untitled';
-      })
-      .catch(()=>{
-        const img=document.createElement('img');
-        img.src=`https://i.vimeocdn.com/video/${id}_640.jpg`;
-        img.alt=title||'';
-        thumb.replaceChildren(img);
-      });
+    // Use Vimeo thumbnail API (simple pattern)
+    const img=document.createElement('img');
+    img.src=`https://vumbnail.com/${id}.jpg`;
+    img.alt=title||'';
+    img.onerror=()=>{img.src=`https://i.vimeocdn.com/video/${id}_640.jpg`};
+    thumb.replaceChildren(img);
 
     const open=()=>openModal(id);
     thumb.addEventListener('click',open);
@@ -169,4 +160,3 @@
 </script>
 </body>
 </html>
-
