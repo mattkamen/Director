@@ -17,7 +17,7 @@
   nav a{color:var(--fg);text-decoration:none;margin-left:20px;font-weight:600;font-size:14px;letter-spacing:.3px;opacity:.9;transition:opacity .2s ease,color .2s ease}
   nav a:hover{color:var(--accent)}
   h1{font-family:'Rubik Iso',cursive;font-weight:400;font-size:56px;letter-spacing:.2px;margin:0 0 8px}
-  .subtitle{font-family:'Rubik Iso',cursive;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
+  .subtitle{font-family:'Inter',sans-serif;color:var(--muted);font-weight:400;font-size:20px;margin:0 auto 28px;letter-spacing:.2px}
   .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:0 20px 12px}
 
   /* Gallery */
@@ -30,7 +30,9 @@
   .thumb{width:100%;aspect-ratio:16/9;background:var(--card);border:1px solid var(--line);overflow:hidden;cursor:pointer;position:relative;outline:none}
   .thumb iframe{width:100%;height:100%;border:0;display:block}
 
-  .title{margin-top:8px;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;color:var(--fg);text-align:center}
+  /* Hover title overlay */
+  .overlay-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);color:var(--fg);font-family:'Inter',sans-serif;font-size:18px;font-weight:600;text-align:center;opacity:0;transition:opacity .3s ease;padding:8px}
+  .thumb:hover .overlay-title{opacity:1}
 
   /* Skeleton */
   @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -115,12 +117,13 @@
     iframe.setAttribute('loading','lazy');
     thumb.appendChild(iframe);
 
-    item.appendChild(thumb);
+    // Overlay title
+    const overlay=document.createElement('div');
+    overlay.className='overlay-title';
+    overlay.textContent=title||'';
+    thumb.appendChild(overlay);
 
-    const caption=document.createElement('div');
-    caption.className='title';
-    caption.textContent=title||'';
-    item.appendChild(caption);
+    item.appendChild(thumb);
 
     const open=()=>openModal(id);
     thumb.addEventListener('click',open);
@@ -153,4 +156,3 @@
 </script>
 </body>
 </html>
-
